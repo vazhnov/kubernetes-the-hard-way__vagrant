@@ -12,37 +12,31 @@ Here we will install the container runtime `containerd` from the Ubuntu distribu
 
 [//]: # (host:worker-1-worker-2)
 
-You can perform this step with [tmux](01-prerequisites.md#running-commands-in-parallel-with-tmux)
+You can perform this step with [tmux](01-prerequisites.md#running-commands-in-parallel-with-tmux).
 
 Set up the Kubernetes `apt` repository
 
 ```bash
-{
-  KUBE_LATEST=$(curl -L -s https://dl.k8s.io/release/stable.txt | awk 'BEGIN { FS="." } { printf "%s.%s", $1, $2 }')
+KUBE_LATEST=$(curl -L -s https://dl.k8s.io/release/stable.txt | awk 'BEGIN { FS="." } { printf "%s.%s", $1, $2 }')
 
-  sudo mkdir -p /etc/apt/keyrings
-  curl -fsSL https://pkgs.k8s.io/core:/stable:/${KUBE_LATEST}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://pkgs.k8s.io/core:/stable:/${KUBE_LATEST}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
-  echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/${KUBE_LATEST}/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-}
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/${KUBE_LATEST}/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
 
 Install `containerd` and CNI tools, first refreshing `apt` repos to get up to date versions.
 
 ```bash
-{
-  sudo apt update
-  sudo apt install -y containerd kubernetes-cni kubectl ipvsadm ipset
-}
+sudo apt update
+sudo apt install -y containerd kubernetes-cni kubectl ipvsadm ipset
 ```
 
 Set up `containerd` configuration to enable systemd Cgroups
 
 ```bash
-{
-  sudo mkdir -p /etc/containerd
-  containerd config default | sed 's/SystemdCgroup = false/SystemdCgroup = true/' | sudo tee /etc/containerd/config.toml
-}
+sudo mkdir -p /etc/containerd
+containerd config default | sed 's/SystemdCgroup = false/SystemdCgroup = true/' | sudo tee /etc/containerd/config.toml
 ```
 
 Now restart `containerd` to read the new configuration

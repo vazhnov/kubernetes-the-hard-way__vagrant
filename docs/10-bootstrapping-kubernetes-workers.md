@@ -66,24 +66,22 @@ Generate a kubeconfig file for the first worker node.
 
 On `master-1`:
 ```bash
-{
-  kubectl config set-cluster kubernetes-the-hard-way \
-    --certificate-authority=/var/lib/kubernetes/pki/ca.crt \
-    --server=https://${LOADBALANCER}:6443 \
-    --kubeconfig=worker-1.kubeconfig
+kubectl config set-cluster kubernetes-the-hard-way \
+  --certificate-authority=/var/lib/kubernetes/pki/ca.crt \
+  --server=https://${LOADBALANCER}:6443 \
+  --kubeconfig=worker-1.kubeconfig
 
-  kubectl config set-credentials system:node:worker-1 \
-    --client-certificate=/var/lib/kubernetes/pki/worker-1.crt \
-    --client-key=/var/lib/kubernetes/pki/worker-1.key \
-    --kubeconfig=worker-1.kubeconfig
+kubectl config set-credentials system:node:worker-1 \
+  --client-certificate=/var/lib/kubernetes/pki/worker-1.crt \
+  --client-key=/var/lib/kubernetes/pki/worker-1.key \
+  --kubeconfig=worker-1.kubeconfig
 
-  kubectl config set-context default \
-    --cluster=kubernetes-the-hard-way \
-    --user=system:node:worker-1 \
-    --kubeconfig=worker-1.kubeconfig
+kubectl config set-context default \
+  --cluster=kubernetes-the-hard-way \
+  --user=system:node:worker-1 \
+  --kubeconfig=worker-1.kubeconfig
 
-  kubectl config use-context default --kubeconfig=worker-1.kubeconfig
-}
+kubectl config use-context default --kubeconfig=worker-1.kubeconfig
 ```
 
 Results:
@@ -100,7 +98,7 @@ scp ca.crt worker-1.crt worker-1.key worker-1.kubeconfig worker-1:~/
 ```
 
 
-### Download and Install Worker Binaries
+### Download and install worker binaries
 
 All the following commands from here until the [verification](#verification) step must be run on `worker-1`
 
@@ -130,13 +128,12 @@ sudo mkdir -p \
 Install the worker binaries:
 
 ```bash
-{
-  chmod +x kube-proxy kubelet
-  sudo mv kube-proxy kubelet /usr/local/bin/
-}
+chmod +x kube-proxy kubelet
+sudo mv kube-proxy kubelet /usr/local/bin/
 ```
 
 ### Configure the Kubelet
+
 On worker-1:
 
 Copy keys and config to correct directories and secure
@@ -222,7 +219,8 @@ WantedBy=multi-user.target
 EOF
 ```
 
-### Configure the Kubernetes Proxy
+### Configure the Kubernetes proxy
+
 On worker-1:
 
 ```bash
@@ -263,7 +261,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-## Optional - Check Certificates and kubeconfigs
+## Optional - check certificates and kubeconfigs
 
 At `worker-1` node, run the following, selecting option 4
 
@@ -274,14 +272,13 @@ At `worker-1` node, run the following, selecting option 4
 ```
 
 
-### Start the Worker Services
+### Start the worker services
+
 On worker-1:
 ```bash
-{
-  sudo systemctl daemon-reload
-  sudo systemctl enable kubelet kube-proxy
-  sudo systemctl start kubelet kube-proxy
-}
+sudo systemctl daemon-reload
+sudo systemctl enable kubelet kube-proxy
+sudo systemctl start kubelet kube-proxy
 ```
 
 > Remember to run the above commands on worker node: `worker-1`

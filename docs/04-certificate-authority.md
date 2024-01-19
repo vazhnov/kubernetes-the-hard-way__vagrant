@@ -1,4 +1,4 @@
-# Provisioning a CA and Generating TLS Certificates
+# Provisioning a CA and generating TLS certificates
 
 In this lab you will provision a [PKI Infrastructure](https://en.wikipedia.org/wiki/Public_key_infrastructure) using the popular openssl tool, then use it to bootstrap a Certificate Authority, and generate TLS certificates for the following components: etcd, kube-apiserver, kube-controller-manager, kube-scheduler, kubelet, and kube-proxy.
 
@@ -10,7 +10,7 @@ In our case we do the following steps on the `master-1` node, as we have set it 
 
 [//]: # (host:master-1)
 
-## Certificate Authority
+## Certificate authority
 
 In this section you will provision a Certificate Authority that can be used to generate additional TLS certificates.
 
@@ -24,7 +24,7 @@ MASTER_2=$(dig +short master-2)
 LOADBALANCER=$(dig +short loadbalancer)
 ```
 
-Compute cluster internal API server service address, which is always .1 in the service CIDR range. This is also required as a SAN in the API server certificate. Run the following:
+Compute cluster internal API server service address, which is always `.1` in the service CIDR range. This is also required as a SAN in the API server certificate. Run the following:
 
 ```bash
 SERVICE_CIDR=10.96.0.0/24
@@ -75,15 +75,16 @@ ca.key
 
 Reference : https://kubernetes.io/docs/tasks/administer-cluster/certificates/#openssl
 
-The ca.crt is the Kubernetes Certificate Authority certificate and ca.key is the Kubernetes Certificate Authority private key.
-You will use the ca.crt file in many places, so it will be copied to many places.
-The ca.key is used by the CA for signing certificates. And it should be securely stored. In this case our master node(s) is our CA server as well, so we will store it on master node(s). There is no need to copy this file elsewhere.
+The `ca.crt` is the Kubernetes Certificate Authority certificate and ca.key is the Kubernetes Certificate Authority private key.
+You will use the `ca.crt` file in many places, so it will be copied to many places.
 
-## Client and Server Certificates
+The `ca.key` is used by the CA for signing certificates. And it should be securely stored. In this case our master node(s) is our CA server as well, so we will store it on master node(s). There is no need to copy this file elsewhere.
+
+## Client and server certificates
 
 In this section you will generate client and server certificates for each Kubernetes component and a client certificate for the Kubernetes `admin` user.
 
-### The Admin Client Certificate
+### The admin client certificate
 
 Generate the `admin` client certificate and private key:
 
@@ -100,7 +101,7 @@ Generate the `admin` client certificate and private key:
 }
 ```
 
-Note that the admin user is part of the **system:masters** group. This is how we are able to perform any administrative operations on Kubernetes cluster using kubectl utility.
+Note that the admin user is part of the **system:masters** group. This is how we are able to perform any administrative operations on Kubernetes cluster using `kubectl` utility.
 
 Results:
 
@@ -109,14 +110,14 @@ admin.key
 admin.crt
 ```
 
-The admin.crt and admin.key file gives you administrative access. We will configure these to be used with the kubectl tool to perform administrative functions on kubernetes.
+The `admin.crt` and `admin.key` file gives you administrative access. We will configure these to be used with the `kubectl` tool to perform administrative functions on Kubernetes.
 
-### The Kubelet Client Certificates
+### The kubelet client certificates
 
 We are going to skip certificate configuration for Worker Nodes for now. We will deal with them when we configure the workers.
 For now let's just focus on the control plane components.
 
-### The Controller Manager Client Certificate
+### The controller manager client certificate
 
 Generate the `kube-controller-manager` client certificate and private key:
 
