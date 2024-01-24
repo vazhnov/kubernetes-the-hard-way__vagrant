@@ -57,7 +57,7 @@ There are two ways to SSH into the nodes:
 
 ### 1. SSH using Vagrant
 
-  From the directory you ran the `vagrant up` command, run `vagrant ssh <vm>` for example `vagrant ssh master-1`.
+  From the directory you ran the `vagrant up` command, run `vagrant ssh \<vm\>` for example `vagrant ssh master-1`.
   > Note: Use VM field from the above table and not the VM name itself.
 
 ### 2. SSH using SSH client tools
@@ -68,7 +68,7 @@ Use the above IP addresses. Username and password-based SSH is disabled by defau
 
 Vagrant generates a private key for each of these VMs. It is placed under the `.vagrant` folder (in the directory you ran the `vagrant up` command from) at the below path for each VM:
 
-- **Private key path**: `.vagrant/machines/<machine name>/virtualbox/private_key`
+- **Private key path**: `.vagrant/machines/\<machine name\>/virtualbox/private_key`
 - **Username/password**: `vagrant/vagrant`
 
 
@@ -86,7 +86,7 @@ Vagrant generates a private key for each of these VMs. It is placed under the `.
 If any of the VMs failed to provision, or is not configured correct, delete the VM using the command:
 
 ```bash
-vagrant destroy <vm>
+vagrant destroy \<vm\>
 ```
 
 Then re-provision. Only the missing VMs will be re-provisioned
@@ -108,7 +108,7 @@ In such cases delete the VM, then delete the VM folder and then re-provision, e.
 
 ```bash
 vagrant destroy worker-2
-rmdir "<path-to-vm-folder>\kubernetes-ha-worker-2
+rmdir "\<path-to-vm-folder\>\kubernetes-ha-worker-2
 vagrant up
 ```
 
@@ -118,7 +118,7 @@ This will most likely happen at "Waiting for machine to reboot"
 
 1. Hit `CTRL+C`
 1. Kill any running `ruby` process, or Vagrant will complain.
-1. Destroy the VM that got stuck: `vagrant destroy <vm>`
+1. Destroy the VM that got stuck: `vagrant destroy \<vm\>`
 1. Re-provision. It will pick up where it left off: `vagrant up`
 
 # Pausing the environment
@@ -127,13 +127,13 @@ You do not need to complete the entire lab in one session. You may shut down and
 
 To shut down. This will gracefully shut down all the VMs in the reverse order to which they were started:
 
-```
+```bash
 vagrant halt
 ```
 
 To power on again:
 
-```
+```bash
 vagrant up
 ```
 
