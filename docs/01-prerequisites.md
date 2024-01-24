@@ -1,13 +1,13 @@
 # Prerequisites
 
-## VM Hardware Requirements
+## VM hardware requirements
 
-8 GB of RAM (Preferably 16 GB)
-50 GB Disk space
+8 GB of RAM (preferably 16 GB)
+50 GB disk space
 
-## Virtual Box
+## VirtualBox
 
-Download and Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) on any one of the supported platforms:
+Download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) on any one of the supported platforms:
 
  - Windows hosts
  - OS X hosts (x86 only, not Apple Silicon M-series)
@@ -19,7 +19,7 @@ Download and Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) on 
 Once VirtualBox is installed you may chose to deploy virtual machines manually on it.
 Vagrant provides an easier way to deploy multiple virtual machines on VirtualBox more consistently.
 
-Download and Install [Vagrant](https://www.vagrantup.com/) on your platform.
+Download and install [Vagrant](https://www.vagrantup.com/) on your platform.
 
 - Windows
 - Debian
@@ -30,7 +30,7 @@ Download and Install [Vagrant](https://www.vagrantup.com/) on your platform.
 This tutorial assumes that you have also installed Vagrant.
 
 
-## Lab Defaults
+## Lab defaults
 
 The labs have been configured with the following networking defaults. If you change any of these after you have deployed any of the lab, you'll need to completely reset it and start again from the beginning:
 
@@ -41,9 +41,9 @@ vagrant up
 
 If you do change any of these, **please consider that a personal preference and don't submit a PR for it**.
 
-### Virtual Machine Network
+### Virtual machine network
 
-The network used by the Virtual Box virtual machines is `192.168.56.0/24`.
+The network used by the VirtualBox virtual machines is `192.168.56.0/24`.
 
 To change this, edit the [Vagrantfile](../vagrant/Vagrantfile) in your cloned copy (do not edit directly in github), and set the new value for the network prefix at line 9. This should not overlap any of the other network settings.
 
@@ -51,7 +51,7 @@ Note that you do not need to edit any of the other scripts to make the above cha
 
 It is *recommended* that you leave the pod and service networks with the following defaults. If you change them then you will also need to edit one or both of the CoreDNS and Weave networking manifests to accommodate your change.
 
-### Pod Network
+### Pod network
 
 The network used to assign IP addresses to pods is `10.244.0.0/16`.
 
@@ -59,7 +59,7 @@ To change this, open all the `.md` files in the [docs](../docs/) directory in yo
 `POD_CIDR=10.244.0.0/16`<br>
 with the new CDIR range.  This should not overlap any of the other network settings.
 
-### Service Network
+### Service network
 
 The network used to assign IP addresses to Cluster IP services is `10.96.0.0/16`.
 
@@ -69,7 +69,7 @@ with the new CDIR range.  This should not overlap any of the other network setti
 
 Additionally edit line 164 of [coredns.yaml](../deployments/coredns.yaml) to set the new DNS service address (should still end with `.10`)
 
-## Running Commands in Parallel with tmux
+## Running commands in parallel with tmux
 
 [tmux](https://github.com/tmux/tmux/wiki) can be used to run commands on multiple compute instances at the same time. Labs in this tutorial may require running the same commands across multiple compute instances, in those cases consider using tmux and splitting a window into multiple panes with synchronize-panes enabled to speed up the provisioning process.
 
