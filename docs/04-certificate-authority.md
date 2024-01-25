@@ -125,7 +125,6 @@ openssl req -new -key kube-controller-manager.key \
 
 openssl x509 -req -in kube-controller-manager.csr \
   -CA ca.crt -CAkey ca.key -CAcreateserial -out kube-controller-manager.crt -days 1000
-}
 ```
 
 Results:
@@ -232,7 +231,7 @@ kube-apiserver.key
 
 # The Kubelet client certificate
 
-This certificate is for the api server to authenticate with the kubelets when it requests information from them
+This certificate is for the API server to authenticate with the kubelets when it requests information from them
 
 ```bash
 cat > openssl-kubelet.cnf <<EOF
