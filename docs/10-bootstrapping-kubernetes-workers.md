@@ -66,22 +66,24 @@ Generate a kubeconfig file for the first worker node.
 
 On `master-1`:
 ```bash
-kubectl config set-cluster kubernetes-the-hard-way \
-  --certificate-authority=/var/lib/kubernetes/pki/ca.crt \
-  --server=https://${LOADBALANCER}:6443 \
-  --kubeconfig=worker-1.kubeconfig
+{
+  kubectl config set-cluster kubernetes-the-hard-way \
+    --certificate-authority=/var/lib/kubernetes/pki/ca.crt \
+    --server=https://${LOADBALANCER}:6443 \
+    --kubeconfig=worker-1.kubeconfig
 
-kubectl config set-credentials system:node:worker-1 \
-  --client-certificate=/var/lib/kubernetes/pki/worker-1.crt \
-  --client-key=/var/lib/kubernetes/pki/worker-1.key \
-  --kubeconfig=worker-1.kubeconfig
+  kubectl config set-credentials system:node:worker-1 \
+    --client-certificate=/var/lib/kubernetes/pki/worker-1.crt \
+    --client-key=/var/lib/kubernetes/pki/worker-1.key \
+    --kubeconfig=worker-1.kubeconfig
 
-kubectl config set-context default \
-  --cluster=kubernetes-the-hard-way \
-  --user=system:node:worker-1 \
-  --kubeconfig=worker-1.kubeconfig
+  kubectl config set-context default \
+    --cluster=kubernetes-the-hard-way \
+    --user=system:node:worker-1 \
+    --kubeconfig=worker-1.kubeconfig
 
-kubectl config use-context default --kubeconfig=worker-1.kubeconfig
+  kubectl config use-context default --kubeconfig=worker-1.kubeconfig
+}
 ```
 
 Results:
@@ -128,8 +130,10 @@ sudo mkdir -p \
 Install the worker binaries:
 
 ```bash
-chmod +x kube-proxy kubelet
-sudo mv kube-proxy kubelet /usr/local/bin/
+{
+  chmod +x kube-proxy kubelet
+  sudo mv kube-proxy kubelet /usr/local/bin/
+}
 ```
 
 ### Configure the Kubelet
@@ -276,9 +280,11 @@ At `worker-1` node, run the following, selecting option 4
 
 On worker-1:
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl enable kubelet kube-proxy
-sudo systemctl start kubelet kube-proxy
+{
+  sudo systemctl daemon-reload
+  sudo systemctl enable kubelet kube-proxy
+  sudo systemctl start kubelet kube-proxy
+}
 ```
 
 > Remember to run the above commands on worker node: `worker-1`
