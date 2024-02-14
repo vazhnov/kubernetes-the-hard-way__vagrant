@@ -172,12 +172,14 @@ Generate the `kube-scheduler` client certificate and private key:
 
 
 ```bash
-openssl genrsa -out kube-scheduler.key 2048
+{
+  openssl genrsa -out kube-scheduler.key 2048
 
-openssl req -new -key kube-scheduler.key \
-  -subj "/CN=system:kube-scheduler/O=system:kube-scheduler" -out kube-scheduler.csr
+  openssl req -new -key kube-scheduler.key \
+    -subj "/CN=system:kube-scheduler/O=system:kube-scheduler" -out kube-scheduler.csr
 
-openssl x509 -req -in kube-scheduler.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out kube-scheduler.crt -days 1000
+  openssl x509 -req -in kube-scheduler.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out kube-scheduler.crt -days 1000
+}
 ```
 
 Results:
@@ -259,13 +261,15 @@ EOF
 Generate certs for kubelet authentication
 
 ```bash
-openssl genrsa -out apiserver-kubelet-client.key 2048
+{
+  openssl genrsa -out apiserver-kubelet-client.key 2048
 
-openssl req -new -key apiserver-kubelet-client.key \
-  -subj "/CN=kube-apiserver-kubelet-client/O=system:masters" -out apiserver-kubelet-client.csr -config openssl-kubelet.cnf
+  openssl req -new -key apiserver-kubelet-client.key \
+    -subj "/CN=kube-apiserver-kubelet-client/O=system:masters" -out apiserver-kubelet-client.csr -config openssl-kubelet.cnf
 
-openssl x509 -req -in apiserver-kubelet-client.csr \
-  -CA ca.crt -CAkey ca.key -CAcreateserial -out apiserver-kubelet-client.crt -extensions v3_req -extfile openssl-kubelet.cnf -days 1000
+  openssl x509 -req -in apiserver-kubelet-client.csr \
+    -CA ca.crt -CAkey ca.key -CAcreateserial -out apiserver-kubelet-client.crt -extensions v3_req -extfile openssl-kubelet.cnf -days 1000
+}
 ```
 
 Results:
@@ -327,13 +331,15 @@ The Kubernetes Controller Manager leverages a key pair to generate and sign serv
 Generate the `service-account` certificate and private key:
 
 ```bash
-openssl genrsa -out service-account.key 2048
+{
+  openssl genrsa -out service-account.key 2048
 
-openssl req -new -key service-account.key \
-  -subj "/CN=service-accounts/O=Kubernetes" -out service-account.csr
+  openssl req -new -key service-account.key \
+    -subj "/CN=service-accounts/O=Kubernetes" -out service-account.csr
 
-openssl x509 -req -in service-account.csr \
-  -CA ca.crt -CAkey ca.key -CAcreateserial -out service-account.crt -days 1000
+  openssl x509 -req -in service-account.csr \
+    -CA ca.crt -CAkey ca.key -CAcreateserial -out service-account.crt -days 1000
+}
 ```
 
 Results:

@@ -39,8 +39,11 @@ Install `containerd` and CNI tools, first refreshing `apt` repos to get up to da
 Set up `containerd` configuration to enable systemd Cgroups
 
 ```bash
-sudo mkdir -p /etc/containerd
-containerd config default | sed 's/SystemdCgroup = false/SystemdCgroup = true/' | sudo tee /etc/containerd/config.toml
+{
+  sudo mkdir -p /etc/containerd
+
+  containerd config default | sed 's/SystemdCgroup = false/SystemdCgroup = true/' | sudo tee /etc/containerd/config.toml
+}
 ```
 
 Now restart `containerd` to read the new configuration
