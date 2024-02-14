@@ -100,7 +100,7 @@ scp ca.crt worker-1.crt worker-1.key worker-1.kubeconfig worker-1:~/
 ```
 
 
-### Download and install worker binaries
+### Download and Install Worker Binaries
 
 All the following commands from here until the [verification](#verification) step must be run on `worker-1`
 
@@ -223,7 +223,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-### Configure the Kubernetes proxy
+### Configure the Kubernetes Proxy
 
 On worker-1:
 
@@ -265,7 +265,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-## Optional - check certificates and kubeconfigs
+## Optional - Check Certificates and kubeconfigs
 
 At `worker-1` node, run the following, selecting option 4
 
@@ -276,7 +276,7 @@ At `worker-1` node, run the following, selecting option 4
 ```
 
 
-### Start the worker services
+### Start the Worker Services
 
 On worker-1:
 ```bash

@@ -1,4 +1,4 @@
-# Generating Kubernetes configuration files for authentication
+# Generating Kubernetes Configuration Files for Authentication
 
 In this lab you will generate [Kubernetes configuration files](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/), also known as "kubeconfigs", which enable Kubernetes clients to locate and authenticate to the Kubernetes API Servers.
 
@@ -6,7 +6,7 @@ Note: It is good practice to use file paths to certificates in kubeconfigs that 
 
 User configs, like `admin.kubeconfig` will have the certificate info embedded within them.
 
-## Client authentication configs
+## Client Authentication Configs
 
 In this section you will generate kubeconfig files for the `controller manager`, `kube-proxy`, `scheduler` clients and the `admin` user.
 
@@ -20,7 +20,7 @@ Each kubeconfig requires a Kubernetes API Server to connect to. To support high 
 LOADBALANCER=$(dig +short loadbalancer)
 ```
 
-### The kube-proxy Kubernetes configuration file
+### The kube-proxy Kubernetes Configuration File
 
 Generate a kubeconfig file for the `kube-proxy` service:
 

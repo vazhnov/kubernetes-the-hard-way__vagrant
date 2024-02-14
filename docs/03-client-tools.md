@@ -1,4 +1,4 @@
-# Installing the client tools
+# Installing the Client Tools
 
 First identify a system from where you will perform administrative tasks, such as creating certificates, `kubeconfig` files and distributing them to the different VMs.
 
@@ -89,5 +89,5 @@ The connection to the server localhost:8080 was refused - did you specify the ri
 
 Don't worry about the error at the end as it is expected. We have not set anything up yet!
 
-Prev: [Compute resources](02-compute-resources.md)<br>
-Next: [Certificate authority](04-certificate-authority.md)
+Prev: [Compute Resources](02-compute-resources.md)<br>
+Next: [Certificate Authority](04-certificate-authority.md)

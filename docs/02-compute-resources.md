@@ -1,4 +1,4 @@
-# Provisioning compute resources
+# Provisioning Compute Resources
 
 Note: You must have VirtualBox and Vagrant configured at this point.
 
@@ -60,7 +60,7 @@ There are two ways to SSH into the nodes:
   From the directory you ran the `vagrant up` command, run `vagrant ssh \<vm\>` for example `vagrant ssh master-1`.
   > Note: Use VM field from the above table and not the VM name itself.
 
-### 2. SSH using SSH client tools
+### 2. SSH Using SSH Client Tools
 
 Use your favourite SSH terminal tool (putty).
 
@@ -72,16 +72,16 @@ Vagrant generates a private key for each of these VMs. It is placed under the `.
 - **Username/password**: `vagrant/vagrant`
 
 
-## Verify environment
+## Verify Environment
 
 - Ensure all VMs are up.
 - Ensure VMs are assigned the above IP addresses.
 - Ensure you can SSH into these VMs using the IP and private keys, or `vagrant ssh`.
 - Ensure the VMs can ping each other.
 
-## Troubleshooting tips
+## Troubleshooting Tips
 
-### Failed provisioning
+### Failed Provisioning
 
 If any of the VMs failed to provision, or is not configured correct, delete the VM using the command:
 
@@ -121,7 +121,7 @@ This will most likely happen at "Waiting for machine to reboot"
 1. Destroy the VM that got stuck: `vagrant destroy \<vm\>`
 1. Re-provision. It will pick up where it left off: `vagrant up`
 
-# Pausing the environment
+# Pausing the Environment
 
 You do not need to complete the entire lab in one session. You may shut down and resume the environment as follows, if you need to power off your computer.
 

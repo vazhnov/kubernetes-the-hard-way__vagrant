@@ -1,4 +1,4 @@
-# Provisioning a CA and generating TLS certificates
+# Provisioning a CA and Generating TLS Certificates
 
 In this lab you will provision a [PKI Infrastructure](https://en.wikipedia.org/wiki/Public_key_infrastructure) using the popular openssl tool, then use it to bootstrap a Certificate Authority, and generate TLS certificates for the following components: etcd, kube-apiserver, kube-controller-manager, kube-scheduler, kubelet, and kube-proxy.
 
@@ -10,7 +10,7 @@ In our case we do the following steps on the `master-1` node, as we have set it 
 
 [//]: # (host:master-1)
 
-## Certificate authority
+## Certificate Authority
 
 In this section you will provision a Certificate Authority that can be used to generate additional TLS certificates.
 
@@ -80,11 +80,11 @@ You will use the `ca.crt` file in many places, so it will be copied to many plac
 
 The `ca.key` is used by the CA for signing certificates. And it should be securely stored. In this case our master node(s) is our CA server as well, so we will store it on master node(s). There is no need to copy this file elsewhere.
 
-## Client and server certificates
+## Client and Server Certificates
 
 In this section you will generate client and server certificates for each Kubernetes component and a client certificate for the Kubernetes `admin` user.
 
-### The admin client certificate
+### The Admin Client Certificate
 
 Generate the `admin` client certificate and private key:
 
@@ -112,12 +112,12 @@ admin.crt
 
 The `admin.crt` and `admin.key` file gives you administrative access. We will configure these to be used with the `kubectl` tool to perform administrative functions on Kubernetes.
 
-### The kubelet client certificates
+### The Kubelet Client Certificates
 
 We are going to skip certificate configuration for Worker Nodes for now. We will deal with them when we configure the workers.
 For now let's just focus on the control plane components.
 
-### The controller manager client certificate
+### The Controller Manager Client Certificate
 
 Generate the `kube-controller-manager` client certificate and private key:
 
@@ -141,7 +141,7 @@ kube-controller-manager.crt
 ```
 
 
-### The Kube Proxy client certificate
+### The Kube Proxy Client Certificate
 
 Generate the `kube-proxy` client certificate and private key:
 
@@ -165,7 +165,7 @@ kube-proxy.key
 kube-proxy.crt
 ```
 
-### The Scheduler client certificate
+### The Scheduler Client Certificate
 
 Generate the `kube-scheduler` client certificate and private key:
 
@@ -189,7 +189,7 @@ kube-scheduler.key
 kube-scheduler.crt
 ```
 
-### The Kubernetes API server certificate
+### The Kubernetes API Server Certificate
 
 The kube-apiserver certificate requires all names that various components may reach it to be part of the alternate names. These include the different DNS names, and IP addresses such as the master servers IP address, the load balancers IP address, the kube-api service IP address etc.
 
@@ -241,7 +241,7 @@ kube-apiserver.crt
 kube-apiserver.key
 ```
 
-# The Kubelet client certificate
+# The Kubelet Client Certificate
 
 This certificate is for the API server to authenticate with the kubelets when it requests information from them
 
@@ -280,7 +280,7 @@ apiserver-kubelet-client.key
 ```
 
 
-### The ETCD server certificate
+### The ETCD Server Certificate
 
 Similarly ETCD server certificate must have addresses of all the servers part of the ETCD cluster
 
@@ -324,7 +324,7 @@ etcd-server.key
 etcd-server.crt
 ```
 
-## The Service Account key pair
+## The Service Account Key Pair
 
 The Kubernetes Controller Manager leverages a key pair to generate and sign service account tokens as describe in the [managing service accounts](https://kubernetes.io/docs/admin/service-accounts-admin/) documentation.
 
@@ -367,7 +367,7 @@ PKI generated correctly!
 
 If there are any errors, please review above steps and then re-verify
 
-## Distribute the certificates
+## Distribute the Certificates
 
 Copy the appropriate certificates and private keys to each instance:
 
@@ -389,7 +389,7 @@ done
 }
 ```
 
-## Optional - check certificates on master-2
+## Optional - Check Certificates on master-2
 
 At `master-2` node run the following, selecting option 1
 
@@ -400,4 +400,4 @@ At `master-2` node run the following, selecting option 1
 ```
 
 Prev: [Client tools](03-client-tools.md)<br>
-Next: [Generating Kubernetes configuration files for authentication](05-kubernetes-configuration-files.md)
+Next: [Generating Kubernetes Configuration Files for Authentication](05-kubernetes-configuration-files.md)

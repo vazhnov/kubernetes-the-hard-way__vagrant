@@ -4,7 +4,7 @@ This directory contains the configuration for the virtual machines we will use f
 
 A few prerequisites are handled by the VM provisioning steps.
 
-## Kernel settings
+## Kernel Settings
 
 1. Disable cgroups v2. I found that Kubernetes currently doesn't play nice with cgroups v2, therefore we need to set a kernel boot parameter in grub to switch back to v1.
 1. Install the `br_netfilter` kernel module that permits kube-proxy to manipulate IP tables rules.
