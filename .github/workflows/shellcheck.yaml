@@ -1,6 +1,5 @@
-# Based on:
-# https://github.com/marketplace/actions/differential-shellcheck
-# https://github.com/redhat-plumbers-in-action/differential-shellcheck
+# Based on: https://github.com/redhat-plumbers-in-action/differential-shellcheck
+# which is recommended by https://shellcheck.net/wiki/GitHub-Actions
 
 name: Differential ShellCheck
 on:
@@ -36,6 +35,7 @@ jobs:
         uses: redhat-plumbers-in-action/differential-shellcheck@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          severity: style  # can be: error, warning, info, style
 
       - if: always()
         name: Upload artifact with ShellCheck defects in SARIF format
