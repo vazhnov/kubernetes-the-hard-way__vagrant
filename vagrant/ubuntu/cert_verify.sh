@@ -12,12 +12,13 @@ FAILED='\033[0;31;1m'
 NC='\033[0m'
 
 # IP addresses
-PRIMARY_IP=$(ip addr show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f 1)
-CONTROL01=$(dig +short controlplane01)
-CONTROL02=$(dig +short controlplane02)
-NODE01=$(dig +short node01)
-NODE02=$(dig +short node02)
-LOADBALANCER=$(dig +short loadbalancer)
+NET_INTERFACE="$(ip -o -4 route get 192.168.56.1|cut -d' ' -f3)"  # Internal network between VMs, will probably return "eth1" on Debian and "enp0s8" on Ubuntu
+PRIMARY_IP="$(ip addr show $NET_INTERFACE | grep "inet " | awk '{print $2}' | cut -d / -f 1)"
+CONTROL01="$(getent ahosts controlplane01 | awk '{ print $1 ; exit }')"
+CONTROL02="$(getent ahosts controlplane02 | awk '{ print $1 ; exit }')"
+NODE01="$(getent ahosts node01 | awk '{ print $1 ; exit }')"
+NODE02="$(getent ahosts node02 | awk '{ print $1 ; exit }')"
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 LOCALHOST="127.0.0.1"
 
 # All Cert Location
@@ -481,7 +482,7 @@ case $choice in
 
     echo -e "The selected option is $choice, proceeding the certificate verification of Master node"
 
-    CERT_LOCATION=$HOME
+    CERT_LOCATION="$PWD"
     check_cert_and_key "ca" $SUBJ_CA $CERT_ISSUER
     check_cert_and_key "kube-apiserver" $SUBJ_API $CERT_ISSUER
     check_cert_and_key "kube-controller-manager" $SUBJ_KCM $CERT_ISSUER
