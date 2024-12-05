@@ -1,3 +1,9 @@
+## 2024-12
+
+Rewriting parts which I don't like.
+
+Work in progress.
+
 * It is assumed that you're working on GNU/Linux or similar environment.
 * Use Debian images instead of Ubuntu — less memory consumption, less services to disable, no Snap.
 * Store all certs in `/vagrant/certs`, which is shared between hosts.
