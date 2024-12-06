@@ -121,7 +121,8 @@ Reference docs for kube-scheduler [here](https://kubernetes.io/docs/reference/co
 
 ### The admin Kubernetes Configuration File
 
-Generate a kubeconfig file for the `admin` user:
+Generate a kubeconfig file for the `admin` user
+(because of `--embed-certs=true` option, certificate files should be in the current directory, or you will have an error <q>no such file or directory</q>):
 
 ```bash
 {
