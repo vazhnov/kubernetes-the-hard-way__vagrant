@@ -6,6 +6,8 @@ set -e
 # Don't forget to update also: `apple-silicon/scripts/cert_verify.sh` #
 #######################################################################
 
+WORKDIR="$PWD"
+
 # Green & Red marking for Success and Failed messages
 SUCCESS='\033[0;32m'
 FAILED='\033[0;31;1m'
@@ -482,7 +484,7 @@ case $choice in
 
     echo -e "The selected option is $choice, proceeding the certificate verification of Master node"
 
-    CERT_LOCATION="$PWD"
+    CERT_LOCATION="$WORKDIR"
     check_cert_and_key "ca" $SUBJ_CA $CERT_ISSUER
     check_cert_and_key "kube-apiserver" $SUBJ_API $CERT_ISSUER
     check_cert_and_key "kube-controller-manager" $SUBJ_KCM $CERT_ISSUER
@@ -506,12 +508,12 @@ case $choice in
     fi
 
     check_cert_adminkubeconfig
-    check_kubeconfig_exists "kube-controller-manager" $HOME
-    check_kubeconfig_exists "kube-scheduler" $HOME
+    check_kubeconfig_exists "kube-controller-manager" "$WORKDIR"
+    check_kubeconfig_exists "kube-scheduler" "$WORKDIR"
 
     if [ "${HOST}" = "controlplane01" ]
     then
-        check_kubeconfig_exists "kube-proxy" $HOME
+        check_kubeconfig_exists "kube-proxy" "$WORKDIR"
     fi
     ;;
 
