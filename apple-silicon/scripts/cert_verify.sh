@@ -2,18 +2,23 @@
 set -e
 #set -x
 
+################################################################
+# Don't forget to update also: `vagrant/ubuntu/cert_verify.sh` #
+################################################################
+
 # Green & Red marking for Success and Failed messages
 SUCCESS='\033[0;32m'
 FAILED='\033[0;31;1m'
 NC='\033[0m'
 
 # IP addresses
-PRIMARY_IP=$(ip route | grep default | awk '{ print $9 }')
-CONTROL01=$(dig +short controlplane01)
-CONTROL02=$(dig +short controlplane02)
-NODE01=$(dig +short node01)
-NODE02=$(dig +short node02)
-LOADBALANCER=$(dig +short loadbalancer)
+NET_INTERFACE="$(ip -o -4 route get 192.168.56.1|cut -d' ' -f3)"  # Internal network between VMs, will probably return "eth1" on Debian and "enp0s8" on Ubuntu
+PRIMARY_IP="$(ip addr show $NET_INTERFACE | grep "inet " | awk '{print $2}' | cut -d / -f 1)"
+CONTROL01="$(getent ahosts controlplane01 | awk '{ print $1 ; exit }')"
+CONTROL02="$(getent ahosts controlplane02 | awk '{ print $1 ; exit }')"
+NODE01="$(getent ahosts node01 | awk '{ print $1 ; exit }')"
+NODE02="$(getent ahosts node02 | awk '{ print $1 ; exit }')"
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 LOCALHOST="127.0.0.1"
 
 # All Cert Location
@@ -219,7 +224,7 @@ check_kubeconfig()
     key=$(get_kubeconfig_cert_path $kubeconfig "client-key")
     server=$(sudo cat $kubeconfig | grep server | awk '{print $2}')
 
-    if [ -f "$ca"]
+    if [ -f "$ca" ]
     then
         printf "${SUCCESS}Path to CA certificate is correct${NC}\n"
     else
@@ -227,7 +232,7 @@ check_kubeconfig()
         exit 1
     fi
 
-    if [ -f "$cert"]
+    if [ -f "$cert" ]
     then
         printf "${SUCCESS}Path to client certificate is correct${NC}\n"
     else
@@ -235,7 +240,7 @@ check_kubeconfig()
         exit 1
     fi
 
-    if [ -f "$key"]
+    if [ -f "$key" ]
     then
         printf "${SUCCESS}Path to client key is correct${NC}\n"
     else
@@ -477,7 +482,7 @@ case $choice in
 
     echo -e "The selected option is $choice, proceeding the certificate verification of Master node"
 
-    CERT_LOCATION=$HOME
+    CERT_LOCATION="$PWD"
     check_cert_and_key "ca" $SUBJ_CA $CERT_ISSUER
     check_cert_and_key "kube-apiserver" $SUBJ_API $CERT_ISSUER
     check_cert_and_key "kube-controller-manager" $SUBJ_KCM $CERT_ISSUER
