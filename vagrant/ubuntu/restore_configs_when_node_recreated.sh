@@ -3,6 +3,7 @@ set -o nounset
 set -o errexit
 set -o pipefail
 shopt -s dotglob
+shopt -s failglob  # if the option is set, and no matches are found, an error message is printed and the command is not executed.
 
 # This script is useful when by some reason your VM machines were destroyed, but your files are stored in the shared Vagrant volume `/vagrant`.
 # It is very useful for me because my whole VMs setup is dynamic: I store disks in ZRAM.
@@ -26,6 +27,8 @@ copy_if_needed(){
   local target="$2"
   if [ -e "$src" ] && [ ! -e "$target" ]; then
     cp -pv "$src" "$target"
+  else
+    echo "Skipped: $src → $target"
   fi
 }
 
@@ -41,7 +44,7 @@ if [[ "$(hostname)" =~ controlplane0[[:digit:]] ]]; then
   mkdir -p /etc/etcd /var/lib/etcd
   copy_if_needed /vagrant/certs/etcd-server.key /etc/etcd/etcd-server.key
   copy_if_needed /vagrant/certs/etcd-server.crt /etc/etcd/etcd-server.crt
-  ln -s /var/lib/kubernetes/pki/ca.crt /etc/etcd/ca.crt
+  ln -s -f -v /var/lib/kubernetes/pki/ca.crt /etc/etcd/ca.crt
   chown -R root:root /etc/etcd
   chmod 600 -- /etc/etcd/*
   copy_if_needed /vagrant/shared/etcd    /usr/local/bin/etcd
@@ -55,8 +58,21 @@ if [[ "$(hostname)" =~ controlplane0[[:digit:]] ]]; then
   for c in kube-apiserver service-account apiserver-kubelet-client etcd-server kube-scheduler kube-controller-manager
   do
     copy_if_needed "/vagrant/certs/$c.crt" "/var/lib/kubernetes/pki/$c.crt"
-    copy_if_needed "/vagrant/certs/$c.key" "/var/lib/kubernetes/pki/$c.crt"
+    copy_if_needed "/vagrant/certs/$c.key" "/var/lib/kubernetes/pki/$c.key"
   done
+  copy_if_needed /vagrant/configs/kube-controller-manager.kubeconfig /var/lib/kubernetes/kube-controller-manager.kubeconfig
+  copy_if_needed /vagrant/configs/kube-scheduler.kubeconfig /var/lib/kubernetes/kube-scheduler.kubeconfig
+
+  # Additionally from me:
+  copy_if_needed /vagrant/certs/ca.key /var/lib/kubernetes/pki/ca.key
+fi
+
+if [[ "$(hostname)" =~ node0[[:digit:]] ]]; then
+  # From `docs/10-bootstrapping-kubernetes-workers.md`:
+  copy_if_needed /vagrant/shared/bin/kubelet    /usr/local/bin/kubelet
+  copy_if_needed /vagrant/shared/bin/kube-proxy /usr/local/bin/kube-proxy
+  copy_if_needed /vagrant/certs/kube-proxy.crt  /var/lib/kubernetes/pki/kube-proxy.crt
+  copy_if_needed /vagrant/certs/kube-proxy.key  /var/lib/kubernetes/pki/kube-proxy.key
 fi
 
 # From `docs/07-bootstrapping-etcd.md`:
@@ -64,3 +80,7 @@ chown -R root:root /var/lib/kubernetes/pki
 chmod 600 -- /var/lib/kubernetes/pki/*
 
 chown -R root:root -- /usr/local/bin/*
+
+set +o errexit  # temporary for `loadbalancer` node, which doesn't have any file in `/var/lib/kubernetes/*.kubeconfig`
+chmod 600 -- /var/lib/kubernetes/*.kubeconfig
+exit 0
