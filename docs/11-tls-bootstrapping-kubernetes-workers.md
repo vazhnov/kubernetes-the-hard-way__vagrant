@@ -109,7 +109,7 @@ Reference: https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tok
 
 ## Step 2 Authorize nodes (kubelets) to create CSR
 
-Next we associate the group we created before to the system:node-bootstrapper ClusterRole. This ClusterRole gives the group enough permissions to bootstrap the kubelet
+Next we associate the group we created before ("system:bootstrappers") to the system:node-bootstrapper ClusterRole. This ClusterRole gives the group enough permissions to bootstrap the kubelet
 
 ```bash
 kubectl create clusterrolebinding create-csrs-for-bootstrapping \
