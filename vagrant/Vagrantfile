@@ -58,7 +58,7 @@ def provision_kubernetes_node(node)
   # Set up DNS
   setup_dns node
   # Install cert verification script
-  node.vm.provision "shell", inline: "ln -s /vagrant/ubuntu/cert_verify.sh /home/vagrant/cert_verify.sh"
+  node.vm.provision "shell", inline: "ln -s -f -v /vagrant/ubuntu/cert_verify.sh /home/vagrant/cert_verify.sh"
 end
 
 # Define the number of master and worker nodes. You should not change this
