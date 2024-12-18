@@ -6,6 +6,11 @@ Rewriting parts which I don't like.
 
 It is assumed that you're working on GNU/Linux or similar environment and you're confident in it.
 
+### About original
+
+This branch code is based on https://github.com/mmumshad/kubernetes-the-hard-way, the last commit was https://github.com/mmumshad/kubernetes-the-hard-way/commit/e76cb25fa0bea2c91eab306be75e28a00e2961ca <time>2024-09-04</time>,
+which in turn is based on https://github.com/kelseyhightower/kubernetes-the-hard-way, the last commit was https://github.com/kelseyhightower/kubernetes-the-hard-way/commit/bf2850974e19c118d04fdc0809ce2ae8a0026a27 <time>2018-09-30</time>, [diff to the latest](https://github.com/kelseyhightower/kubernetes-the-hard-way/compare/bf2850974e19c118d04fdc0809ce2ae8a0026a27..master).
+
 ### Done
 
 + Use Debian images instead of Ubuntu — less memory consumption, less services to disable, no Snap.
@@ -32,9 +37,9 @@ It is assumed that you're working on GNU/Linux or similar environment and you're
 
 #### Probably, mistakes in the original
 
-* `/var/lib/kubernetes/pki/ca.key` have to be copied on controlplane01 and controlplane02.
-  + to avoid:
-    ```
+`/var/lib/kubernetes/pki/ca.key` have to be copied on controlplane01 and controlplane02 to avoid:
+
+```text
 Dec 11 14:28:22 controlplane02 kube-controller-manager[1399]: E1211 14:28:22.527270    1399 controllermanager.go:771] "Error starting controller" err="failed to start kubernetes.io/kubelet-serving certificate controller: error reading CA cert file \"/var/lib/kubernetes/pki/ca.crt\": open /var/lib/kubernetes/pki/ca.key: no such file or directory" controller="certificatesigningrequest-signing-controller"
 Dec 11 14:28:22 controlplane02 kube-controller-manager[1399]: E1211 14:28:22.527297    1399 controllermanager.go:247] "Error starting controllers" err="failed to start kubernetes.io/kubelet-serving certificate controller: error reading CA cert file \"/var/lib/kubernetes/pki/ca.crt\": open /var/lib/kubernetes/pki/ca.key: no such file or directory"
 ```
@@ -43,7 +48,7 @@ Dec 11 14:28:22 controlplane02 kube-controller-manager[1399]: E1211 14:28:22.527
 
 New structure at the VM guest:
 
-```
+```console
  $ tree -d /vagrant/
 /vagrant/
 ├── certs    — for *.key, *.crt
