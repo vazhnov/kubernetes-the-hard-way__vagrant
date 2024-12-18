@@ -1,3 +1,5 @@
+# Configuration file for https://shellcheck.net (which should be run by your IDE)
+
 # Variable appears unused. Verify use (or export if used externally).
 disable=SC2034
 
