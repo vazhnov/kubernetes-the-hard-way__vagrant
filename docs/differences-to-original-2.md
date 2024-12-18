@@ -34,6 +34,7 @@ Tested with:
 
 * Remove US style capitalization, use [Wikipedia:Naming conventions (capitalization)](https://en.wikipedia.org/wiki/Wikipedia:Naming_conventions_(capitalization)) instead.
 * Split `vagrant/ubuntu/ssh.sh` into smaller files?
+* Try fresh https://github.com/coreos/etcd/releases (the latest is v3.5.17).
 * Add an example of command like `openssl x509 -noout -text -in kube-apiserver.crt` (see also command `openssl x509 -in <certificate path> -text` in `tools/kubernetes-certs-checker.xlsx`).
 * Add `.yaml` to all `.kubeconfig` filenames.
 * Probably no need to create new SSH key on `controlplane01`, just use `ssh -A` to use exist SSH key with agent forwarding.
