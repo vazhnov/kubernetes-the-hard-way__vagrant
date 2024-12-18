@@ -27,7 +27,7 @@ LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 Compute cluster internal API server service address, which is always `.1` in the service CIDR range. This is also required as a SAN in the API server certificate. Run the following:
 
 ```bash
-SERVICE_CIDR=10.96.0.0/24
+SERVICE_CIDR="10.96.0.0/16"
 API_SERVICE=$(echo $SERVICE_CIDR | awk 'BEGIN {FS="."} ; { printf("%s.%s.%s.1", $1, $2, $3) }')
 ```
 
