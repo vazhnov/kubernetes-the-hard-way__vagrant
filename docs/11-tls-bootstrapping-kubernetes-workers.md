@@ -271,7 +271,7 @@ This is to be done on the `node02` node. Note that now we have set up the load b
 Set up some shell variables for nodes and services we will require in the following configurations:
 
 ```bash
-LOADBALANCER=$(dig +short loadbalancer)
+LOADBALANCER="$(getent ahosts loadbalancer|awk '{ print $1 ; exit }')"
 POD_CIDR=10.244.0.0/16
 SERVICE_CIDR=10.96.0.0/16
 CLUSTER_DNS=$(echo $SERVICE_CIDR | awk 'BEGIN {FS="."} ; { printf("%s.%s.%s.10", $1, $2, $3) }')

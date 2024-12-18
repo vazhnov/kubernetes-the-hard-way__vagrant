@@ -2,8 +2,9 @@
 
 # TODO: why do we need this change? To use our records from `/etc/hosts`?
 # Then we probably should just use `getent ahosts` instead of `dig +short` in this course.
+# See also: https://github.com/mmumshad/kubernetes-the-hard-way/issues/355
 
-# Debian 12 Bookworm image by default doesn't use `systemd-resolve`
+# Vagrant image Debian 12 Bookworm by default doesn't use `systemd-resolve`.
 # So let's check if `systemd-resolve` exist:
 if systemd-resolve --status >/dev/null 2>/dev/null; then
   mkdir -pv /etc/systemd/resolved.conf.d

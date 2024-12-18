@@ -22,7 +22,7 @@ On `controlplane01`:
 [//]: # (host:controlplane01)
 
 ```bash
-NODE01=$(dig +short node01)
+NODE01="$(getent ahosts node01 | awk '{ print $1 ; exit }')"
 ```
 
 ```bash
@@ -59,7 +59,7 @@ When generating kubeconfig files for Kubelets the client certificate matching th
 Get the kube-api server load-balancer IP.
 
 ```bash
-LOADBALANCER=$(dig +short loadbalancer)
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 ```
 
 Generate a kubeconfig file for the first worker node.
