@@ -20,6 +20,15 @@ which in turn is based on https://github.com/kelseyhightower/kubernetes-the-hard
 + No need in `resolvConf` in `docs/10-bootstrapping-kubernetes-workers.md` and in `docs/11-tls-bootstrapping-kubernetes-workers.md`.
 + Add `gpg` and `--no-install-recommends` to `apt-get install -y apt-transport-https ca-certificates curl` in `docs/09-install-cri-workers.md`.
 
+### Versions
+
+Tested with:
+* Host machine: Debian GNU/Linux 12 (bookworm).
+* Guest machines: Debian GNU/Linux 12 (bookworm).
+* etcd: v3.5.9 (from https://github.com/coreos/etcd/releases).
+* Kubernetes (`kubectl`, ): v1.31.3 (from https://prod-cdn.packages.k8s.io).
+* containerd: 1.6.20 (from https://packages.debian.org/bookworm/amd64/containerd).
+* kubernetes-cni: 1.5.1 (from https://prod-cdn.packages.k8s.io).
 
 ### TODO
 
