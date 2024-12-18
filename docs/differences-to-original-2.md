@@ -34,7 +34,7 @@ Tested with:
 
 * Remove US style capitalization, use [Wikipedia:Naming conventions (capitalization)](https://en.wikipedia.org/wiki/Wikipedia:Naming_conventions_(capitalization)) instead.
 * Split `vagrant/ubuntu/ssh.sh` into smaller files?
-* Add an example of command like `openssl x509 -noout -text -in kube-apiserver.crt`.
+* Add an example of command like `openssl x509 -noout -text -in kube-apiserver.crt` (see also command `openssl x509 -in <certificate path> -text` in `tools/kubernetes-certs-checker.xlsx`).
 * Add `.yaml` to all `.kubeconfig` filenames.
 * Probably no need to create new SSH key on `controlplane01`, just use `ssh -A` to use exist SSH key with agent forwarding.
 * No need in `tmux`, just open tabs in terminal.
@@ -43,6 +43,8 @@ Tested with:
 * Use `cp` from `/vagrant/` instead `mv`. <del>This allows to re-create whole cluster</del>.
 * By some reason, `kubectl` installed with just downloading in some places, but in `docs/09-install-cri-workers.md` it is installed properly with `apt`.
 * Add check at the end of `docs/09-install-cri-workers.md`: `vagrant@node01:~$ containerd config dump|grep -i SystemdCgroup`
+* Try to add `.kubernetes.local` names to `/etc/hosts` like in the original [Kelsey's docs/03-compute-resources.md](https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/03-compute-resources.md).
+* Try IPv6!
 
 #### Probably, mistakes in the original
 
