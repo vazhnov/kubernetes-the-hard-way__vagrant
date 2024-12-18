@@ -18,7 +18,7 @@ You can perform this step with [tmux](01-prerequisites.md#running-commands-in-pa
     ```bash
     {
         sudo apt-get update
-        sudo apt-get install -y apt-transport-https ca-certificates curl
+        sudo apt-get install -V --no-install-recommends apt-transport-https ca-certificates curl gpg
     }
     ```
 

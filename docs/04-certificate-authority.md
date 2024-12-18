@@ -19,15 +19,15 @@ Query IPs of hosts we will insert as certificate subject alternative names (SANs
 Set up environment variables. Run the following:
 
 ```bash
-CONTROL01=$(dig +short controlplane01)
-CONTROL02=$(dig +short controlplane02)
-LOADBALANCER=$(dig +short loadbalancer)
+CONTROL01="$(getent ahosts controlplane01 | awk '{ print $1 ; exit }')"
+CONTROL02="$(getent ahosts controlplane02 | awk '{ print $1 ; exit }')"
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 ```
 
 Compute cluster internal API server service address, which is always `.1` in the service CIDR range. This is also required as a SAN in the API server certificate. Run the following:
 
 ```bash
-SERVICE_CIDR=10.96.0.0/24
+SERVICE_CIDR="10.96.0.0/16"
 API_SERVICE=$(echo $SERVICE_CIDR | awk 'BEGIN {FS="."} ; { printf("%s.%s.%s.1", $1, $2, $3) }')
 ```
 

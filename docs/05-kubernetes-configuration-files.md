@@ -17,7 +17,7 @@ Each kubeconfig requires a Kubernetes API Server to connect to. To support high 
 [//]: # (host:controlplane01)
 
 ```bash
-LOADBALANCER=$(dig +short loadbalancer)
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 ```
 
 ### The kube-proxy Kubernetes Configuration File
@@ -121,7 +121,8 @@ Reference docs for kube-scheduler [here](https://kubernetes.io/docs/reference/co
 
 ### The admin Kubernetes Configuration File
 
-Generate a kubeconfig file for the `admin` user:
+Generate a kubeconfig file for the `admin` user
+(because of `--embed-certs=true` option, certificate files should be in the current directory, or you will have an error <q>no such file or directory</q>):
 
 ```bash
 {

@@ -65,14 +65,14 @@ The instance internal IP address will be used to advertise the API Server to mem
 Retrieve these internal IP addresses:
 
 ```bash
-LOADBALANCER=$(dig +short loadbalancer)
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 ```
 
 IP addresses of the two controlplane nodes, where the etcd servers are.
 
 ```bash
-CONTROL01=$(dig +short controlplane01)
-CONTROL02=$(dig +short controlplane02)
+CONTROL01="$(getent ahosts controlplane01 | awk '{ print $1 ; exit }')"
+CONTROL02="$(getent ahosts controlplane02 | awk '{ print $1 ; exit }')"
 ```
 
 CIDR ranges used *within* the cluster
@@ -280,9 +280,9 @@ sudo apt-get update && sudo apt-get install -y haproxy
 Read IP addresses of controlplane nodes and this host to shell variables
 
 ```bash
-CONTROL01=$(dig +short controlplane01)
-CONTROL02=$(dig +short controlplane02)
-LOADBALANCER=$(dig +short loadbalancer)
+CONTROL01="$(getent ahosts controlplane01 | awk '{ print $1 ; exit }')"
+CONTROL02="$(getent ahosts controlplane02 | awk '{ print $1 ; exit }')"
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 ```
 
 Create HAProxy configuration to listen on API server port on this host and distribute requests evently to the two controlplane nodes.
