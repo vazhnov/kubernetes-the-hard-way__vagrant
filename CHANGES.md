@@ -6,15 +6,15 @@ Rewriting parts which I don't like.
 
 It is assumed that you're working on GNU/Linux or similar environment and you're confident in it.
 
-* Use Debian images instead of Ubuntu — less memory consumption, less services to disable, no Snap.
++ Use Debian images instead of Ubuntu — less memory consumption, less services to disable, no Snap.
 * Store all certs in `/vagrant/certs`, which is shared between hosts.
-* Use current directory in `cert_verify.sh` instead of hardcoded home directory.
-* Use `getent ahosts example.com | cut -d' ' -f1` everywhere because it follows `/etc/nsswitch.conf` rules (reads `/etc/hosts`, mDNS, etc.), instead of `dig +short example.org`, see https://github.com/mmumshad/kubernetes-the-hard-way/issues/355.
-* Fix typo in `docs/04-certificate-authority.md`: `SERVICE_CIDR` should be `10.96.0.0/16`.
++ Use current directory in `cert_verify.sh` instead of hardcoded home directory.
++ Use `getent ahosts example.com | cut -d' ' -f1` everywhere because it follows `/etc/nsswitch.conf` rules (reads `/etc/hosts`, mDNS, etc.), instead of `dig +short example.org`, see https://github.com/mmumshad/kubernetes-the-hard-way/issues/355.
++ Fix typo in `docs/04-certificate-authority.md`: `SERVICE_CIDR` should be `10.96.0.0/16`.
 * By some reason, `kubectl` installed with just downloading in some places, but in `docs/09-install-cri-workers.md` it is installed properly with `apt`.
 * Add check at the end of `docs/09-install-cri-workers.md`: `vagrant@node01:~$ containerd config dump|grep -i SystemdCgroup`
-* No need in `resolvConf` in `docs/10-bootstrapping-kubernetes-workers.md`.
-* No need in `resolvConf` in `docs/11-tls-bootstrapping-kubernetes-workers.md`.
++ No need in `resolvConf` in `docs/10-bootstrapping-kubernetes-workers.md`.
++ No need in `resolvConf` in `docs/11-tls-bootstrapping-kubernetes-workers.md`.
 
 
 ## Notes
@@ -26,11 +26,6 @@ It is assumed that you're working on GNU/Linux or similar environment and you're
     ```
 Dec 11 14:28:22 controlplane02 kube-controller-manager[1399]: E1211 14:28:22.527270    1399 controllermanager.go:771] "Error starting controller" err="failed to start kubernetes.io/kubelet-serving certificate controller: error reading CA cert file \"/var/lib/kubernetes/pki/ca.crt\": open /var/lib/kubernetes/pki/ca.key: no such file or directory" controller="certificatesigningrequest-signing-controller"
 Dec 11 14:28:22 controlplane02 kube-controller-manager[1399]: E1211 14:28:22.527297    1399 controllermanager.go:247] "Error starting controllers" err="failed to start kubernetes.io/kubelet-serving certificate controller: error reading CA cert file \"/var/lib/kubernetes/pki/ca.crt\": open /var/lib/kubernetes/pki/ca.key: no such file or directory"
-```
-* (my mistake, I had to use `kubectl config use-context default --kubeconfig=kube-controller-manager.kubeconfig` in `docs/05-kubernetes-configuration-files.md`) `current-context: "default"` have to be set in `/var/lib/kubernetes/kube-controller-manager.kubeconfig`.
-  + to avoid:
-    ```
-Dec 11 12:42:36 controlplane01 kube-controller-manager[57981]: E1211 12:42:36.251945   57981 run.go:72] "command failed" err="invalid configuration: no configuration has been provided, try setting KUBERNETES_MASTER environment variable"
 ```
 * Add `gpg` and `--no-install-recommends` to `apt-get install -y apt-transport-https ca-certificates curl` in `docs/09-install-cri-workers.md`.
 

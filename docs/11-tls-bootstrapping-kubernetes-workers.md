@@ -356,6 +356,8 @@ EOF
 
 > Note: We are not specifying the certificate details - tlsCertFile and tlsPrivateKeyFile - in this file
 
+> Note 2: `resolvConf` setting is not needed in Vagrant images of Debian 12 Bookworm, because they doesn't use `systemd-resolve`by default.
+
 ## Step 8 Configure Kubelet Service
 
 Create the `kubelet.service` systemd unit file:
