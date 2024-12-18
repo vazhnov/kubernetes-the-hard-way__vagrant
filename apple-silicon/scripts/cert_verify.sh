@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# shellcheck disable=SC2166  # "Prefer [ p ] || [ q ] as [ p -o q ] is not well defined"
+# shellcheck disable=SC2059  # Don't use variables in the printf format string. Use printf '..%s..' "$foo".
+
 set -e
 #set -x
 
@@ -438,7 +442,7 @@ check_systemd_ks()
 
 # END OF Function - Master node #
 
-if [ ! -z "$1" ]
+if [ -n "$1" ]
 then
     choice=$1
 else
@@ -453,7 +457,7 @@ else
         echo "  5. Verify kubeconfigs and PKI on node02 Node after step 11"
         echo
         echo -n "Please select one of the above options: "
-        read choice
+        read -r choice
 
         [ -z "$choice" ] && continue
         [ $choice -gt 0 -a $choice -lt 6 ] && break
