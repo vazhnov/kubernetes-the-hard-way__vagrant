@@ -200,7 +200,7 @@ EOF
 
 > Note 1: The `resolvConf` configuration is used to avoid loops when using CoreDNS for service discovery on systems running `systemd-resolved`.
 
-> Note 2: `resolvConf` setting is not needed in Vagrant images of Debian 12 Bookworm, because they doesn't use `systemd-resolve`by default.
+> Note 2: `resolvConf` setting is not needed in Vagrant images of Debian 12 Bookworm, because they don't use `systemd-resolve`by default.
 
 Create the `kubelet.service` systemd unit file:
 

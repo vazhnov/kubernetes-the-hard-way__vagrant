@@ -13,11 +13,12 @@ which in turn is based on https://github.com/kelseyhightower/kubernetes-the-hard
 
 ### Done
 
++ Added compatibility with Vagrant Debian image guests.
 + Use Debian images instead of Ubuntu — less memory consumption, less services to disable, no Snap.
-+ Use current directory in `cert_verify.sh` instead of hardcoded home directory.
++ Use current directory in `cert_verify.sh` instead of hardcoded home directory (I don't like a mess of files in the home directory).
 + Use `getent ahosts example.com | cut -d' ' -f1` everywhere because it follows `/etc/nsswitch.conf` rules (reads `/etc/hosts`, mDNS, etc.), instead of `dig +short example.org`, see https://github.com/mmumshad/kubernetes-the-hard-way/issues/355.
 + Fix typo in `docs/04-certificate-authority.md`: `SERVICE_CIDR` should be `10.96.0.0/16`.
-+ No need in `resolvConf` in `docs/10-bootstrapping-kubernetes-workers.md` and in `docs/11-tls-bootstrapping-kubernetes-workers.md`.
++ No need in `resolvConf` in `docs/10-bootstrapping-kubernetes-workers.md` and in `docs/11-tls-bootstrapping-kubernetes-workers.md` for Debian guests.
 + Add `gpg` and `--no-install-recommends` to `apt-get install -y apt-transport-https ca-certificates curl` in `docs/09-install-cri-workers.md`.
 
 ### Versions

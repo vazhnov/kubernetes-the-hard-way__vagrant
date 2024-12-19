@@ -10,6 +10,8 @@ set -e
 # Don't forget to update also: `apple-silicon/scripts/cert_verify.sh` #
 #######################################################################
 
+# By default, https://github.com/mmumshad/kubernetes-the-hard-way uses $HOME to store all the certificates.
+# WORKDIR="$HOME"
 WORKDIR="$PWD"
 
 # Green & Red marking for Success and Failed messages
