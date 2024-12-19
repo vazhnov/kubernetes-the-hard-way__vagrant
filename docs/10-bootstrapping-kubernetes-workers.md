@@ -22,7 +22,7 @@ On `controlplane01`:
 [//]: # (host:controlplane01)
 
 ```bash
-NODE01=$(dig +short node01)
+NODE01="$(getent ahosts node01 | awk '{ print $1 ; exit }')"
 ```
 
 ```bash
@@ -59,7 +59,7 @@ When generating kubeconfig files for Kubelets the client certificate matching th
 Get the kube-api server load-balancer IP.
 
 ```bash
-LOADBALANCER=$(dig +short loadbalancer)
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 ```
 
 Generate a kubeconfig file for the first worker node.
@@ -198,7 +198,9 @@ registerNode: true
 EOF
 ```
 
-> The `resolvConf` configuration is used to avoid loops when using CoreDNS for service discovery on systems running `systemd-resolved`.
+> Note 1: The `resolvConf` configuration is used to avoid loops when using CoreDNS for service discovery on systems running `systemd-resolved`.
+
+> Note 2: `resolvConf` setting is not needed in Vagrant images of Debian 12 Bookworm, because they don't use `systemd-resolve`by default.
 
 Create the `kubelet.service` systemd unit file:
 

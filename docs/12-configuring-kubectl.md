@@ -15,7 +15,7 @@ On `controlplane01`
 Get the kube-api server load-balancer IP.
 
 ```bash
-LOADBALANCER=$(dig +short loadbalancer)
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 ```
 
 Generate a kubeconfig file suitable for authenticating as the `admin` user:
