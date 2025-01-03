@@ -2,9 +2,7 @@
 
 Rewriting parts which I don't like.
 
-**Work in progress**.
-
-It is assumed that you're working on GNU/Linux or similar environment and you're confident in it.
+I didn't expect so a lot of changes. Sorry they are in one merge request: https://github.com/vazhnov/kubernetes-the-hard-way__vagrant/pull/2
 
 ### About original
 
@@ -13,13 +11,25 @@ which in turn is based on https://github.com/kelseyhightower/kubernetes-the-hard
 
 ### Done
 
-+ Added compatibility with Vagrant Debian image guests.
-+ Use Debian images instead of Ubuntu — less memory consumption, less services to disable, no Snap.
-+ Use current directory in `cert_verify.sh` instead of hardcoded home directory (I don't like a mess of files in the home directory).
-+ Use `getent ahosts example.com | cut -d' ' -f1` everywhere because it follows `/etc/nsswitch.conf` rules (reads `/etc/hosts`, mDNS, etc.), instead of `dig +short example.org`, see https://github.com/mmumshad/kubernetes-the-hard-way/issues/355.
-+ Fix typo in `docs/04-certificate-authority.md`: `SERVICE_CIDR` should be `10.96.0.0/16`.
-+ No need in `resolvConf` in `docs/10-bootstrapping-kubernetes-workers.md` and in `docs/11-tls-bootstrapping-kubernetes-workers.md` for Debian guests.
-+ Add `gpg` and `--no-install-recommends` to `apt-get install -y apt-transport-https ca-certificates curl` in `docs/09-install-cri-workers.md`.
+* Added GitHub actions [Differential ShellCheck](https://github.com/redhat-plumbers-in-action/differential-shellcheck).
+    + I had to add temporary SC2166 and SC2059 to ShellCheck ignored because there are too much changes I have to do.
+* Fixed a bunch of linter warnings in Bash scripts.
+* Added compatibility with Vagrant Debian image guests.
+* The new code should be compatible with both Ubuntu and Debian Vagrant images (was: Ubuntu only).
+* Use Debian images instead of Ubuntu — less memory consumption, less services to disable, no Snap.
+* Stop and disable extra services, no need in auto-update on the lab guest VMs:
+    + motd-news.timer
+    + ubuntu-advantage.service
+    + apt-daily.timer
+    + apt-daily.service
+    + unattended-upgrades.service
+* Replaced all `dig +short NAME` to `getent ahosts example.com | awk '{ print $1 ; exit }'`
+    + because it follows `/etc/nsswitch.conf` rules (reads `/etc/hosts`, mDNS, etc.), see https://github.com/mmumshad/kubernetes-the-hard-way/issues/355.
+* Fix typo in `docs/04-certificate-authority.md`: `SERVICE_CIDR` should be `10.96.0.0/16`.
+* No need in `resolvConf` in `docs/10-bootstrapping-kubernetes-workers.md` and in `docs/11-tls-bootstrapping-kubernetes-workers.md` for Debian guests.
+* `cert_verify.sh` checks certificate in the current directory (was: all certs must be in `$HOME`), add new variable `WORKDIR`.
+* All interactive `apt` commands: remove `-y` argument, because these commands are executed interactively.
+* Add `gpg` and `--no-install-recommends` to `apt-get install -y apt-transport-https ca-certificates curl` in `docs/09-install-cri-workers.md`.
 
 ### Versions
 
@@ -35,12 +45,13 @@ Tested with:
 
 * Remove US style capitalization, use [Wikipedia:Naming conventions (capitalization)](https://en.wikipedia.org/wiki/Wikipedia:Naming_conventions_(capitalization)) instead.
 * Split `vagrant/ubuntu/ssh.sh` into smaller files?
+* Create something like `/etc/ssh/sshd_config.d/local.conf` instead of editing `/etc/ssh/sshd_config`.
 * Try fresh https://github.com/coreos/etcd/releases (the latest is v3.5.17).
 * Add an example of command like `openssl x509 -noout -text -in kube-apiserver.crt` (see also command `openssl x509 -in <certificate path> -text` in `tools/kubernetes-certs-checker.xlsx`).
 * Add `.yaml` to all `.kubeconfig` filenames.
 * Probably no need to create new SSH key on `controlplane01`, just use `ssh -A` to use exist SSH key with agent forwarding.
-* No need in `tmux`, just open tabs in terminal.
-* Check if commands `kubectl config use-context default --kubeconfig=xxx.kubeconfig` are needed in `docs/05-kubernetes-configuration-files.md` (probably not).
+* <del>No need in `tmux`, just open tabs in terminal</del>.
+* <del>Check if commands `kubectl config use-context default --kubeconfig=xxx.kubeconfig` are needed in `docs/05-kubernetes-configuration-files.md` (probably not)</del>.
 * Store all certs in `/vagrant/certs`, which is shared between hosts.
 * Use `cp` from `/vagrant/` instead `mv`. <del>This allows to re-create whole cluster</del>.
 * By some reason, `kubectl` installed with just downloading in some places, but in `docs/09-install-cri-workers.md` it is installed properly with `apt`.
