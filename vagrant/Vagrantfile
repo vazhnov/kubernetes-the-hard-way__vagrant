@@ -78,11 +78,8 @@ Vagrant.configure("2") do |config|
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  # config.vm.box = "base"
-  # config.vm.box = "ubuntu/jammy64"
-  config.vm.box = "debian/bookworm64"
+  # This lab supports both Debian and Ubuntu images, use the one you're more familiar, `ubuntu/jammy64` or `debian/bookworm64`:
+  config.vm.box = "ubuntu/jammy64"
   config.vm.boot_timeout = 900
 
   # Disable automatic box update checking. If you disable this, then
