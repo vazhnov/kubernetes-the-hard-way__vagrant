@@ -109,7 +109,7 @@ Reference: https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tok
 
 ## Step 2 Authorize nodes (kubelets) to create CSR
 
-Next we associate the group we created before to the system:node-bootstrapper ClusterRole. This ClusterRole gives the group enough permissions to bootstrap the kubelet
+Next we associate the group we created before ("system:bootstrappers") to the system:node-bootstrapper ClusterRole. This ClusterRole gives the group enough permissions to bootstrap the kubelet
 
 ```bash
 kubectl create clusterrolebinding create-csrs-for-bootstrapping \
@@ -271,7 +271,7 @@ This is to be done on the `node02` node. Note that now we have set up the load b
 Set up some shell variables for nodes and services we will require in the following configurations:
 
 ```bash
-LOADBALANCER=$(dig +short loadbalancer)
+LOADBALANCER="$(getent ahosts loadbalancer|awk '{ print $1 ; exit }')"
 POD_CIDR=10.244.0.0/16
 SERVICE_CIDR=10.96.0.0/16
 CLUSTER_DNS=$(echo $SERVICE_CIDR | awk 'BEGIN {FS="."} ; { printf("%s.%s.%s.10", $1, $2, $3) }')
@@ -355,6 +355,8 @@ EOF
 ```
 
 > Note: We are not specifying the certificate details - tlsCertFile and tlsPrivateKeyFile - in this file
+
+> Note 2: `resolvConf` setting is not needed in Vagrant images of Debian 12 Bookworm, because they don't use `systemd-resolve`by default.
 
 ## Step 8 Configure Kubelet Service
 

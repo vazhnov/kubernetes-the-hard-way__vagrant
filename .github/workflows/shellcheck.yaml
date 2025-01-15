@@ -1,0 +1,45 @@
+# Based on: https://github.com/redhat-plumbers-in-action/differential-shellcheck
+# which is recommended by https://shellcheck.net/wiki/GitHub-Actions
+
+name: Differential ShellCheck
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    permissions:
+      # required for all workflows
+      security-events: write
+
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+        with:
+          # Differential ShellCheck requires full git history
+          fetch-depth: 0
+
+      - id: ShellCheck
+        name: Differential ShellCheck
+        uses: redhat-plumbers-in-action/differential-shellcheck@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          severity: style  # can be: error, warning, info, style
+
+      - if: always()
+        name: Upload artifact with ShellCheck defects in SARIF format
+        uses: actions/upload-artifact@v4
+        with:
+          name: Differential ShellCheck SARIF
+          path: ${{ steps.ShellCheck.outputs.sarif }}

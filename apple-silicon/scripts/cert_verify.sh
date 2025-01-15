@@ -1,6 +1,18 @@
 #!/bin/bash
+
+# shellcheck disable=SC2166  # "Prefer [ p ] || [ q ] as [ p -o q ] is not well defined"
+# shellcheck disable=SC2059  # Don't use variables in the printf format string. Use printf '..%s..' "$foo".
+
 set -e
 #set -x
+
+################################################################
+# Don't forget to update also: `vagrant/ubuntu/cert_verify.sh` #
+################################################################
+
+# By default, https://github.com/mmumshad/kubernetes-the-hard-way uses $HOME to store all the certificates.
+# WORKDIR="$HOME"
+WORKDIR="$PWD"
 
 # Green & Red marking for Success and Failed messages
 SUCCESS='\033[0;32m'
@@ -8,12 +20,13 @@ FAILED='\033[0;31;1m'
 NC='\033[0m'
 
 # IP addresses
-PRIMARY_IP=$(ip route | grep default | awk '{ print $9 }')
-CONTROL01=$(dig +short controlplane01)
-CONTROL02=$(dig +short controlplane02)
-NODE01=$(dig +short node01)
-NODE02=$(dig +short node02)
-LOADBALANCER=$(dig +short loadbalancer)
+NET_INTERFACE="$(ip -o -4 route get 192.168.56.1|cut -d' ' -f3)"  # Internal network between VMs, will probably return "eth1" on Debian and "enp0s8" on Ubuntu
+PRIMARY_IP="$(ip addr show $NET_INTERFACE | grep "inet " | awk '{print $2}' | cut -d / -f 1)"
+CONTROL01="$(getent ahosts controlplane01 | awk '{ print $1 ; exit }')"
+CONTROL02="$(getent ahosts controlplane02 | awk '{ print $1 ; exit }')"
+NODE01="$(getent ahosts node01 | awk '{ print $1 ; exit }')"
+NODE02="$(getent ahosts node02 | awk '{ print $1 ; exit }')"
+LOADBALANCER="$(getent ahosts loadbalancer | awk '{ print $1 ; exit }')"
 LOCALHOST="127.0.0.1"
 
 # All Cert Location
@@ -219,7 +232,7 @@ check_kubeconfig()
     key=$(get_kubeconfig_cert_path $kubeconfig "client-key")
     server=$(sudo cat $kubeconfig | grep server | awk '{print $2}')
 
-    if [ -f "$ca"]
+    if [ -f "$ca" ]
     then
         printf "${SUCCESS}Path to CA certificate is correct${NC}\n"
     else
@@ -227,7 +240,7 @@ check_kubeconfig()
         exit 1
     fi
 
-    if [ -f "$cert"]
+    if [ -f "$cert" ]
     then
         printf "${SUCCESS}Path to client certificate is correct${NC}\n"
     else
@@ -235,7 +248,7 @@ check_kubeconfig()
         exit 1
     fi
 
-    if [ -f "$key"]
+    if [ -f "$key" ]
     then
         printf "${SUCCESS}Path to client key is correct${NC}\n"
     else
@@ -431,7 +444,7 @@ check_systemd_ks()
 
 # END OF Function - Master node #
 
-if [ ! -z "$1" ]
+if [ -n "$1" ]
 then
     choice=$1
 else
@@ -446,7 +459,7 @@ else
         echo "  5. Verify kubeconfigs and PKI on node02 Node after step 11"
         echo
         echo -n "Please select one of the above options: "
-        read choice
+        read -r choice
 
         [ -z "$choice" ] && continue
         [ $choice -gt 0 -a $choice -lt 6 ] && break
@@ -477,7 +490,7 @@ case $choice in
 
     echo -e "The selected option is $choice, proceeding the certificate verification of Master node"
 
-    CERT_LOCATION=$HOME
+    CERT_LOCATION="$WORKDIR"
     check_cert_and_key "ca" $SUBJ_CA $CERT_ISSUER
     check_cert_and_key "kube-apiserver" $SUBJ_API $CERT_ISSUER
     check_cert_and_key "kube-controller-manager" $SUBJ_KCM $CERT_ISSUER
@@ -501,12 +514,12 @@ case $choice in
     fi
 
     check_cert_adminkubeconfig
-    check_kubeconfig_exists "kube-controller-manager" $HOME
-    check_kubeconfig_exists "kube-scheduler" $HOME
+    check_kubeconfig_exists "kube-controller-manager" "$WORKDIR"
+    check_kubeconfig_exists "kube-scheduler" "$WORKDIR"
 
     if [ "${HOST}" = "controlplane01" ]
     then
-        check_kubeconfig_exists "kube-proxy" $HOME
+        check_kubeconfig_exists "kube-proxy" "$WORKDIR"
     fi
     ;;
 
