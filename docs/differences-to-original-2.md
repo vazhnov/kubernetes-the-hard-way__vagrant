@@ -2,12 +2,12 @@
 
 Rewriting parts which I don't like.
 
-I didn't expect so a lot of changes. Sorry they are in one merge request: https://github.com/vazhnov/kubernetes-the-hard-way__vagrant/pull/2
+### About the original(s)
 
-### About original
-
-This branch code is based on https://github.com/mmumshad/kubernetes-the-hard-way, the last commit was https://github.com/mmumshad/kubernetes-the-hard-way/commit/e76cb25fa0bea2c91eab306be75e28a00e2961ca <time>2024-09-04</time>,
-which in turn is based on https://github.com/kelseyhightower/kubernetes-the-hard-way, the last commit was https://github.com/kelseyhightower/kubernetes-the-hard-way/commit/bf2850974e19c118d04fdc0809ce2ae8a0026a27 <time>2018-09-30</time>, [diff to the latest](https://github.com/kelseyhightower/kubernetes-the-hard-way/compare/bf2850974e19c118d04fdc0809ce2ae8a0026a27..master).
+This branch code is based on:
+1. https://github.com/mmumshad/kubernetes-the-hard-way, the last commit was https://github.com/mmumshad/kubernetes-the-hard-way/commit/e76cb25fa0bea2c91eab306be75e28a00e2961ca <time>2024-09-04</time>,
+2. which in turn is based on GCP version https://github.com/kelseyhightower/kubernetes-the-hard-way, the last commit was https://github.com/kelseyhightower/kubernetes-the-hard-way/commit/bf2850974e19c118d04fdc0809ce2ae8a0026a27 <time>2018-09-30</time>, [diff to the latest](https://github.com/kelseyhightower/kubernetes-the-hard-way/compare/bf2850974e19c118d04fdc0809ce2ae8a0026a27..master).
+  * which [became](https://github.com/kelseyhightower/kubernetes-the-hard-way/pull/767) ARM64-based (`aarch64`).
 
 ### Done
 
