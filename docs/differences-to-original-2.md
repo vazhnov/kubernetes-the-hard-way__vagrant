@@ -17,6 +17,8 @@ This branch code is based on:
 * Added compatibility with Vagrant Debian image guests.
 * The new code should be compatible with both Ubuntu and Debian Vagrant images (was: Ubuntu only).
 * Use Debian images instead of Ubuntu — less memory consumption, less services to disable, no Snap.
+* Create `/etc/ssh/sshd_config.d/my_vagrant_lab.conf` instead of editing `/etc/ssh/sshd_config`.
+* Split `vagrant/ubuntu/ssh.sh` into smaller files: `install_packages.sh` and `services_cleanup.sh`.
 * Stop and disable extra services, no need in auto-update on the lab guest VMs:
     + motd-news.timer
     + ubuntu-advantage.service
@@ -44,14 +46,12 @@ Tested with:
 ### TODO
 
 * Remove US style capitalization, use [Wikipedia:Naming conventions (capitalization)](https://en.wikipedia.org/wiki/Wikipedia:Naming_conventions_(capitalization)) instead.
-* ✅ <del>Split `vagrant/ubuntu/ssh.sh` into smaller files</del>.
-* ✅ <del>Create something like `/etc/ssh/sshd_config.d/local.conf` instead of editing `/etc/ssh/sshd_config`</del>.
 * Try fresh https://github.com/coreos/etcd/releases (the latest is v3.5.17).
 * Add an example of command like `openssl x509 -noout -text -in kube-apiserver.crt` (see also command `openssl x509 -in <certificate path> -text` in `tools/kubernetes-certs-checker.xlsx`).
 * Add `.yaml` to all `.kubeconfig` filenames for automatic syntax highlight by `vim`.
 * Probably no need to create new SSH key on `controlplane01`, just use <del>`ssh -A` to use exist SSH key with agent forwarding</del> a shared folder `/vagrant/`.
-* <del>No need in `tmux`, just open tabs in terminal</del>.
-* <del>Check if commands `kubectl config use-context default --kubeconfig=xxx.kubeconfig` are needed in `docs/05-kubernetes-configuration-files.md` (probably not)</del>.
+* ❌ <del>No need in `tmux`, just open tabs in terminal</del>.
+* ❌ <del>Check if commands `kubectl config use-context default --kubeconfig=xxx.kubeconfig` are needed in `docs/05-kubernetes-configuration-files.md`</del> (it is needed, my mistake).
 * Store all certs in `/vagrant/certs`, which is shared between hosts.
 * Use `cp` from `/vagrant/` instead `mv`. <del>This allows to re-create whole cluster</del>.
 * By some reason, `kubectl` installed with just downloading in some places, but in `docs/09-install-cri-workers.md` it is installed properly with `apt`.
