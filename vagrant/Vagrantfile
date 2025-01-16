@@ -56,6 +56,7 @@ def provision_kubernetes_node(node)
   # Set up ssh
   node.vm.provision "setup-ssh", :type => "shell", :path => "ubuntu/ssh.sh"
   node.vm.provision "install-packages", :type => "shell", :path => "ubuntu/install_packages.sh", :env => { "DEBIAN_FRONTEND" => "noninteractive" }
+  node.vm.provision "install-avahi", :type => "shell", :path => "ubuntu/avahi.sh", :env => { "DEBIAN_FRONTEND" => "noninteractive" }
   # Set up DNS
   setup_dns node
   # Install cert verification script
@@ -123,6 +124,7 @@ Vagrant.configure("2") do |config|
     # Set up ssh
     node.vm.provision "setup-ssh", :type => "shell", :path => "ubuntu/ssh.sh"
     node.vm.provision "install-packages", :type => "shell", :path => "ubuntu/install_packages.sh", :env => { "DEBIAN_FRONTEND" => "noninteractive" }
+    node.vm.provision "install-avahi", :type => "shell", :path => "ubuntu/avahi.sh", :env => { "DEBIAN_FRONTEND" => "noninteractive" }
     setup_dns node
   end
 
