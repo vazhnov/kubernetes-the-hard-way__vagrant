@@ -99,8 +99,7 @@ Vagrant.configure("2") do |config|
         vb.cpus = RESOURCES["control"][i > 2 ? 2 : i]["cpu"]
       end
       node.vm.hostname = "controlplane0#{i}"
-      node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
-      node.vm.network "forwarded_port", guest: 22, host: "#{2710 + i}"
+      node.vm.network "public_network", bridge: "enp0s31f6"
       provision_kubernetes_node node
       if i == 1
         # Install (opinionated) configs for vim and tmux on controlplane01. These used by the author for CKA exam.
@@ -119,8 +118,7 @@ Vagrant.configure("2") do |config|
       vb.cpus = 1
     end
     node.vm.hostname = "loadbalancer"
-    node.vm.network :private_network, ip: IP_NW + "#{LB_IP_START}"
-    node.vm.network "forwarded_port", guest: 22, host: 2730
+    node.vm.network "public_network", bridge: "enp0s31f6"
     node.vm.provision "services-cleanup", :type => "shell", :path => "ubuntu/services_cleanup.sh"
     # Set up ssh
     node.vm.provision "setup-ssh", :type => "shell", :path => "ubuntu/ssh.sh"
@@ -137,8 +135,7 @@ Vagrant.configure("2") do |config|
         vb.cpus = RESOURCES["worker"]["cpu"]
       end
       node.vm.hostname = "node0#{i}"
-      node.vm.network :private_network, ip: IP_NW + "#{NODE_IP_START + i}"
-      node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
+      node.vm.network "public_network", bridge: "enp0s31f6"
       provision_kubernetes_node node
     end
   end
