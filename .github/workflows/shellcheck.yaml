@@ -4,9 +4,9 @@
 name: Differential ShellCheck
 on:
   push:
-    branches: [ main, master ]
+    branches: [ experimental, main, master ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ experimental, main, master ]
 
 permissions:
   contents: read
