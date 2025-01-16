@@ -44,8 +44,8 @@ Tested with:
 ### TODO
 
 * Remove US style capitalization, use [Wikipedia:Naming conventions (capitalization)](https://en.wikipedia.org/wiki/Wikipedia:Naming_conventions_(capitalization)) instead.
-* Split `vagrant/ubuntu/ssh.sh` into smaller files?
-* Create something like `/etc/ssh/sshd_config.d/local.conf` instead of editing `/etc/ssh/sshd_config`.
+* ✅ <del>Split `vagrant/ubuntu/ssh.sh` into smaller files</del>.
+* ✅ <del>Create something like `/etc/ssh/sshd_config.d/local.conf` instead of editing `/etc/ssh/sshd_config`</del>.
 * Try fresh https://github.com/coreos/etcd/releases (the latest is v3.5.17).
 * Add an example of command like `openssl x509 -noout -text -in kube-apiserver.crt` (see also command `openssl x509 -in <certificate path> -text` in `tools/kubernetes-certs-checker.xlsx`).
 * Add `.yaml` to all `.kubeconfig` filenames for automatic syntax highlight by `vim`.
