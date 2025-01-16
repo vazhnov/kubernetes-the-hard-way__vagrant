@@ -16,9 +16,13 @@ systemctl restart systemd-modules-load.service
 
 # Set network tunables
 cat <<EOF >> /etc/sysctl.d/10-kubernetes.conf
-net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.default.disable_ipv6 = 1
-net.ipv6.conf.lo.disable_ipv6 = 1
+# net.ipv6.conf.all.disable_ipv6 = 1
+# net.ipv6.conf.default.disable_ipv6 = 1
+# net.ipv6.conf.lo.disable_ipv6 = 1
+
+net.ipv6.conf.all.forwarding = 1
+net.ipv6.conf.all.accept_ra = 2
+
 net.bridge.bridge-nf-call-iptables=1
 net.ipv4.ip_forward=1
 EOF
