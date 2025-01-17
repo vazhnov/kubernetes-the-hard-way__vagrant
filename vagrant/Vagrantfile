@@ -81,14 +81,14 @@ Vagrant.configure("2") do |config|
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
-  # Run script on **host** machine
-  config.trigger.before [:up, :provision] do |trigger|
-    trigger.run = {inline: "mkdir -p /tmp/vagrant/debian/var/cache/apt/archives /tmp/vagrant/debian/var/lib/apt/lists"}
-  end
-
   # This lab supports both Debian and Ubuntu images, use the one you're more familiar, `ubuntu/jammy64` or `debian/bookworm64`:
   config.vm.box = "debian/bookworm64"
   config.vm.boot_timeout = 900
+
+  # Run script on **host** machine
+  config.trigger.before [:up, :provision] do |trigger|
+    trigger.run = {inline: "mkdir -p /tmp/vagrant/#{config.vm.box}/var/cache/apt/archives /tmp/vagrant/#{config.vm.box}/var/lib/apt/lists"}
+  end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -144,8 +144,8 @@ Vagrant.configure("2") do |config|
         vb.cpus = RESOURCES["worker"]["cpu"]
       end
       node.vm.hostname = "node0#{i}"
-      node.vm.synced_folder "/tmp/vagrant/debian/var/cache/apt/archives", "/var/cache/apt/archives", owner: "_apt", group: "root"
-      node.vm.synced_folder "/tmp/vagrant/debian/var/lib/apt/lists", "/var/lib/apt/lists", owner: "_apt", group: "root"
+      node.vm.synced_folder "/tmp/vagrant/#{config.vm.box}/var/cache/apt/archives", "/var/cache/apt/archives", owner: "_apt", group: "root"
+      node.vm.synced_folder "/tmp/vagrant/#{config.vm.box}/var/lib/apt/lists", "/var/lib/apt/lists", owner: "_apt", group: "root"
       provision_kubernetes_node node
     end
   end
