@@ -2,7 +2,7 @@
 
 Container Network Interface (CNI) is a standard interface for managing IP networks between containers across many nodes.
 
-We chose to use CNI - [weave](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/) as our networking option.
+We chose to use CNI - [weave](https://github.com/weaveworks/weave) as our networking option.
 
 
 ### Deploy Weave Network
